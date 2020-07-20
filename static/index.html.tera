@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Rocket - URL shortener</title>
+  <meta name="description" content="A todo application written in Rocket.">
+  <meta name="author" content="Sergio Benitez">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <h4>URL shortener</h4>
+      <form action="/link" method="post">
+        <div class="ten columns">
+          <input type="text" placeholder="Enter a URL"
+            name="url" id="url" value="" autofocus
+            class="u-full-width {% if msg %}field-{{msg.0}}{% endif %}" />
+          {% if msg %}
+            <small class="field-{{msg.0}}-msg">
+               {{ msg.1 }}
+            </small>
+          {% endif %}
+        </div>
+        <div class="two columns">
+          <input type="submit" value="add link">
+        </div>
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="twelve columns">
+        <ul>
+        {% for link in links %}
+          {% if link.is_active %}
+            <li>
+                <a href="{{ link.url }}" class="btn btn-outline-primary" role="button" aria-pressed="true">{{ link.url }}</a>
+                -
+                <a href="http://localhost:8000/redirect/{{ link.alias }}" class="btn btn-outline-primary" role="button" aria-pressed="true">http://localhost:8000/redirect/{{ link.alias }}</a>
+
+              <form class="inline" action="/link/{{link.id}}" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="small" type="submit">inactivate</button>
+              </form>
+              <form class="inline" action="/link/{{link.id}}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <button class="primary small" type="submit">delete</button>
+              </form>
+            </li>
+          {% else %}
+            <li>
+              <span class="completed">{{ link.url }}</span>
+              -
+              <span class="completed">http://localhost:8000/redirect/{{ link.alias }}</span>
+              <form class="inline" action="/link/{{link.id}}" method="post">
+                <input type="hidden" name="_method" value="put" />
+                <button class="small" type="submit">activate</button>
+              </form>
+              <form class="inline" action="/link/{{link.id}}" method="post">
+                <input type="hidden" name="_method" value="delete" />
+                <button class="primary small" type="submit">delete</button>
+              </form>
+            </li>
+          {% endif %}
+        {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
