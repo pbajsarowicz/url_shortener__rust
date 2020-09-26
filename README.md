@@ -7,12 +7,11 @@ This project is a result of my first steps in Rocket and Rust in general, too. T
 1. Install Rust following https://rustup.rs/.
 2. Configure Rust nightly as your default toolchain.
 ```
-rustup default nightly
+$ rustup default nightly
 ```
 3. Install `cargo-watch`.
 ```
 $ cargo install cargo-watch
-
 ```
 4. Install SQLite - macOS:
 ```
@@ -27,20 +26,19 @@ $ cargo watch -x run
 ## Get all links
 `[GET] /api/v1/links`
 ```
-$ curl -X GET http://localhost:8000/api/v1/links/TfgMq
-{"alias":"TfgMq","id":4,"is_active":true,"url":"http://google.com"}%
+$ curl -X GET http://localhost:8000/api/v1/links
+[{"alias":"TfgMq","id":4,"is_active":true,"url":"http://google.com"},{"alias":"aymrB","id":3,"is_active":false,"url":"https://www.bbc.com/"}]
 ```
 
 ## Get a single link
 `[GET] /api/v1/links/<alias>`
 ```
-curl -X GET http://localhost:8000/api/v1/links
-[{"alias":"TfgMq","id":4,"is_active":true,"url":"http://google.com"},{"alias":"aymrB","id":3,"is_active":false,"url":"https://www.bbc.com/"}]%
+$ curl -X GET http://localhost:8000/api/v1/links/TfgMq
+{"alias":"TfgMq","id":4,"is_active":true,"url":"http://google.com"}
 ```
 
 ## Add a new link
 `[POST] /api/v1/links`
-
 ```
 $ curl -X POST \
   http://localhost:8000/api/v1/links \
@@ -48,5 +46,5 @@ $ curl -X POST \
   -d '{
     "url": "http://google.com"
 }'
-{"link":"http://localhost:8000/redirect/t5ku4","status":"Successfully added a link"}%
+{"link":"http://localhost:8000/redirect/t5ku4","status":"Successfully added a link"}
 ```
